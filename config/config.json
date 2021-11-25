@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "siemens-docs-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/siemensDocs/SiemensDocsWebPart.js",
+          "manifest": "./src/webparts/siemensDocs/SiemensDocsWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "SiemensDocsWebPartStrings": "lib/webparts/siemensDocs/loc/{locale}.js"
+  }
+}
