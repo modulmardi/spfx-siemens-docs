@@ -1,4 +1,7 @@
 declare interface ISiemensDocsWebPartStrings {
+  PropertyPaneSaveFolder: string;
+  SaveDocumentButtonLabel: string;
+  OpenPreviewModalButtonLabel: string;
   PropertyPaneDescription: string;
   PropertyPaneEditorModeLable: string;
   BasicGroupName: string;

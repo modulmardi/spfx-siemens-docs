@@ -1,5 +1,5 @@
 import { WebPartContext } from "@microsoft/sp-webpart-base";
-import React, { createContext } from "react";
+import React, { createContext, FC } from "react";
 import DocFinder from "./DocFinder";
 import DocMaker from "./DocMaker";
 
@@ -8,26 +8,20 @@ export interface ISiemensDocsProps {
   editorMode: boolean;
 }
 
-
 export const SPContext = createContext<WebPartContext>(null);
 
-const SiemensDocs = ({
+const SiemensDocs: FC<ISiemensDocsProps> = ({
   editorMode,
   spContext,
   ...props
-}: ISiemensDocsProps) => {
-
-  return (
-    <>
-      <SPContext.Provider value={spContext}>
-        {(editorMode && (
-          <>
-            <DocMaker />
-          </>
-        )) || <DocFinder />}
-      </SPContext.Provider>
-    </>
-  );
-};
+}: ISiemensDocsProps) => (
+  <SPContext.Provider value={spContext}>
+    {(editorMode && (
+      <>
+        <DocMaker />
+      </>
+    )) || <DocFinder />}
+  </SPContext.Provider>
+);
 
 export default SiemensDocs;

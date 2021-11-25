@@ -1,6 +1,7 @@
 import { Version } from "@microsoft/sp-core-library";
 import {
   IPropertyPaneConfiguration,
+  PropertyPaneTextField,
   PropertyPaneToggle,
 } from "@microsoft/sp-property-pane";
 import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
@@ -41,6 +42,9 @@ export default class SiemensDocsWebPart extends BaseClientSideWebPart<ISiemensDo
           groups: [
             {
               groupFields: [
+                PropertyPaneTextField("saveFolder", {
+                  label: strings.PropertyPaneSaveFolder,
+                }),
                 PropertyPaneToggle("editorMode", {
                   label: strings.PropertyPaneEditorModeLable,
                 }),
