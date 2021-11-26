@@ -5,23 +5,25 @@ import DocMaker from "./DocMaker";
 
 export interface ISiemensDocsProps {
   spContext: WebPartContext;
+  filePath: string
   editorMode: boolean;
 }
 
-export const SPContext = createContext<WebPartContext>(null);
+export const SiemensContext = createContext<{ spContext: WebPartContext, filePath: string }>(null);
 
 const SiemensDocs: FC<ISiemensDocsProps> = ({
   editorMode,
   spContext,
+  filePath,
   ...props
 }: ISiemensDocsProps) => (
-  <SPContext.Provider value={spContext}>
+  <SiemensContext.Provider value={{ spContext, filePath }}>
     {(editorMode && (
       <>
         <DocMaker />
       </>
     )) || <DocFinder />}
-  </SPContext.Provider>
+  </SiemensContext.Provider >
 );
 
 export default SiemensDocs;

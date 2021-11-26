@@ -3,12 +3,14 @@ import { useBoolean } from "@fluentui/react-hooks";
 import React, { useContext, useEffect, useState } from "react";
 import * as strings from "SiemensDocsWebPartStrings";
 import fileToHtml from "../utils/fileToHtml";
-import { SPContext } from "./SiemensDocs";
+import { saveFileOnCurrentSite } from "../utils/uploader";
+import { SiemensContext } from "./SiemensDocs";
+import { WebPartContext } from '@microsoft/sp-webpart-base';
 
-interface Props {}
+interface DocMakerProps { }
 
-const DocMaker = (props: Props) => {
-  const spContext = useContext(SPContext);
+const DocMaker = ({ }: DocMakerProps) => {
+  const { spContext, filePath } = useContext(SiemensContext);
   const [docFile, setDocFile] = useState<File>();
   const [docHtml, setDocHtml] = useState<any>();
   const [isModalOpen, { setTrue: showModal, setFalse: hideModal }] =
@@ -16,7 +18,7 @@ const DocMaker = (props: Props) => {
   useEffect(() => {
     try {
       fileToHtml(docFile, (html) => setDocHtml(html));
-    } catch {}
+    } catch { }
   }, [docFile]);
   return (
     <>
@@ -32,14 +34,14 @@ const DocMaker = (props: Props) => {
       />
       <PrimaryButton
         disabled={!docHtml?.value}
-        onClick={() => showModal()}
+        onClick={() => saveFileOnCurrentSite(spContext, filePath, docFile)}
         text={strings.SaveDocumentButtonLabel}
       />
       <Modal isOpen={isModalOpen} onDismiss={hideModal} isBlocking={false}>
         <div
           className="Container"
           dangerouslySetInnerHTML={{ __html: docHtml?.value }}
-        ></div>
+        />
       </Modal>
     </>
   );

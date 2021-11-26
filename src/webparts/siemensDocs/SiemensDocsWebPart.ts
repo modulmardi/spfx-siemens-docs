@@ -11,14 +11,15 @@ import * as strings from "SiemensDocsWebPartStrings";
 import SiemensDocs, { ISiemensDocsProps } from "./components/SiemensDocs";
 
 export interface ISiemensDocsWebPartProps {
-  editorMode: boolean;
+  editorMode: boolean,
+  saveFolder: string,
 }
 
 export default class SiemensDocsWebPart extends BaseClientSideWebPart<ISiemensDocsWebPartProps> {
   public render(): void {
     const element: React.ReactElement<ISiemensDocsProps> = React.createElement(
       SiemensDocs,
-      { editorMode: this.properties.editorMode, spContext: this.context }
+      { editorMode: this.properties.editorMode, spContext: this.context, filePath: this.properties.saveFolder || "" }
     );
 
     ReactDom.render(element, this.domElement);
