@@ -1,6 +1,6 @@
 import { WebPartContext } from "@microsoft/sp-webpart-base";
 
-export const getSiteRootDriveId = async (context: WebPartContext): Promise<string> => {
+export const getCurrentSiteRootDriveId = async (context: WebPartContext): Promise<string> => {
     const client = await context.msGraphClientFactory.getClient();
     const serverRelativeUrl = context.pageContext.site.serverRelativeUrl;
     return client.api(

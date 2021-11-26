@@ -19,7 +19,7 @@ export default class SiemensDocsWebPart extends BaseClientSideWebPart<ISiemensDo
   public render(): void {
     const element: React.ReactElement<ISiemensDocsProps> = React.createElement(
       SiemensDocs,
-      { editorMode: this.properties.editorMode, spContext: this.context, filePath: this.properties.saveFolder || "" }
+      { editorMode: this.properties.editorMode, spContext: this.context, path: this.properties.saveFolder || "" }
     );
 
     ReactDom.render(element, this.domElement);

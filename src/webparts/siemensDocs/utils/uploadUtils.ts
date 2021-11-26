@@ -1,5 +1,5 @@
 import { WebPartContext } from "@microsoft/sp-webpart-base";
-import { getSiteRootDriveId } from "./getCurrentSiteRootDriveId";
+import { getCurrentSiteRootDriveId } from "./getCurrentSiteRootDriveId";
 
 export const saveFileOnDrive = async (
   context: WebPartContext,
@@ -23,6 +23,6 @@ export const saveFileOnCurrentSite = async (
   filePath: string,
   file: File
 ) => {
-  const driveId = await getSiteRootDriveId(context)
+  const driveId = await getCurrentSiteRootDriveId(context)
   await saveFileOnDrive(context, driveId, filePath, file)
 }

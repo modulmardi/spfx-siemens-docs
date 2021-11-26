@@ -5,19 +5,19 @@ import DocMaker from "./DocMaker";
 
 export interface ISiemensDocsProps {
   spContext: WebPartContext;
-  filePath: string
+  path: string
   editorMode: boolean;
 }
 
-export const SiemensContext = createContext<{ spContext: WebPartContext, filePath: string }>(null);
+export const SiemensContext = createContext<{ spContext: WebPartContext, path: string }>(null);
 
 const SiemensDocs: FC<ISiemensDocsProps> = ({
   editorMode,
   spContext,
-  filePath,
+  path,
   ...props
 }: ISiemensDocsProps) => (
-  <SiemensContext.Provider value={{ spContext, filePath }}>
+  <SiemensContext.Provider value={{ spContext, path }}>
     {(editorMode && (
       <>
         <DocMaker />

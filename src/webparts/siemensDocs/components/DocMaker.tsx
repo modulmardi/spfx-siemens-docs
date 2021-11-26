@@ -9,7 +9,7 @@ import { SiemensContext } from "./SiemensDocs";
 interface DocMakerProps { }
 
 const DocMaker = ({ }: DocMakerProps) => {
-  const { spContext, filePath } = useContext(SiemensContext);
+  const { spContext, path } = useContext(SiemensContext);
   const [docFile, setDocFile] = useState<File>();
   const [docHtml, setDocHtml] = useState<any>();
   const [isModalOpen, { setTrue: showModal, setFalse: hideModal }] =
@@ -33,7 +33,7 @@ const DocMaker = ({ }: DocMakerProps) => {
       />
       <PrimaryButton
         disabled={!docHtml?.value}
-        onClick={() => saveFileOnCurrentSite(spContext, filePath, docFile)}
+        onClick={() => saveFileOnCurrentSite(spContext, path, docFile)}
         text={strings.SaveDocumentButtonLabel}
       />
       <Modal isOpen={isModalOpen} onDismiss={hideModal} isBlocking={false}>
