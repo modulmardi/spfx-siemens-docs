@@ -2,7 +2,7 @@ import { DefaultButton, Modal, PrimaryButton } from "@fluentui/react";
 import { useBoolean } from "@fluentui/react-hooks";
 import React, { useContext, useEffect, useState } from "react";
 import * as strings from "SiemensDocsWebPartStrings";
-import fileToHtml from "../utils/fileToHtml";
+import blobToHtml from "../utils/fileToHtml";
 import { saveFileOnCurrentSite } from "../utils/uploadUtils";
 import { SiemensContext } from "./SiemensDocs";
 
@@ -16,7 +16,7 @@ const DocMaker = ({ }: DocMakerProps) => {
     useBoolean(false);
   useEffect(() => {
     try {
-      fileToHtml(docFile, (html) => setDocHtml(html));
+      blobToHtml(docFile, (html) => setDocHtml(html));
     } catch { }
   }, [docFile]);
   return (
