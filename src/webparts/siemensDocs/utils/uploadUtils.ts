@@ -1,12 +1,5 @@
 import { WebPartContext } from "@microsoft/sp-webpart-base";
-
-export const getSiteRootDirectoryId = async (context: WebPartContext): Promise<string> => {
-  const client = await context.msGraphClientFactory.getClient();
-  const serverRelativeUrl = context.pageContext.site.serverRelativeUrl;
-  return client.api(
-    `/sites/root${serverRelativeUrl === "/" ? "/" : `:/sites/${serverRelativeUrl}:/`}/drive`
-  ).get().then((msRespond: { id: string }) => msRespond.id);
-};
+import { getSiteRootDriveId } from "./getCurrentSiteRootDriveId";
 
 export const saveFileOnDrive = async (
   context: WebPartContext,
@@ -30,6 +23,6 @@ export const saveFileOnCurrentSite = async (
   filePath: string,
   file: File
 ) => {
-  const driveId = await getSiteRootDirectoryId(context)
+  const driveId = await getSiteRootDriveId(context)
   await saveFileOnDrive(context, driveId, filePath, file)
 }

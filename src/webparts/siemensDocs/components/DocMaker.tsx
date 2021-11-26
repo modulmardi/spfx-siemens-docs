@@ -3,9 +3,8 @@ import { useBoolean } from "@fluentui/react-hooks";
 import React, { useContext, useEffect, useState } from "react";
 import * as strings from "SiemensDocsWebPartStrings";
 import fileToHtml from "../utils/fileToHtml";
-import { saveFileOnCurrentSite } from "../utils/uploader";
+import { saveFileOnCurrentSite } from "../utils/uploadUtils";
 import { SiemensContext } from "./SiemensDocs";
-import { WebPartContext } from '@microsoft/sp-webpart-base';
 
 interface DocMakerProps { }
 
