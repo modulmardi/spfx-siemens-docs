@@ -5,7 +5,7 @@ import DocMaker from "./DocMaker";
 
 export interface ISiemensDocsProps {
   spContext: WebPartContext;
-  path: string
+  path: string;
   editorMode: boolean;
 }
 

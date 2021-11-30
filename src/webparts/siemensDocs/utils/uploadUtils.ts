@@ -15,14 +15,14 @@ export const saveFileOnDrive = async (
       if (msError) {
         console.log(msError);
       }
-    })
-}
+    });
+};
 
 export const saveFileOnCurrentSite = async (
   context: WebPartContext,
   filePath: string,
   file: File
 ) => {
-  const driveId = await getCurrentSiteRootDriveId(context)
-  await saveFileOnDrive(context, driveId, filePath, file)
-}
+  const driveId = await getCurrentSiteRootDriveId(context);
+  await saveFileOnDrive(context, driveId, filePath, file);
+};
