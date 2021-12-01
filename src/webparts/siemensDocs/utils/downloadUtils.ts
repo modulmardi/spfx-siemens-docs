@@ -25,7 +25,7 @@ export const fetchDocxFiles = async (
   return files;
 };
 
-export const fetchDocxTags = async (
+export const fetchDocxTagsWithMetas = async (
   context: WebPartContext
 ): Promise<{ eTag: string; tags: string }[]> => {
   //sites/root/lists/11e8aaae-84f6-4ffd-beab-1866d5c2874b/items?$expand=fields
