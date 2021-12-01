@@ -14,3 +14,16 @@ export const getCurrentSiteRootDriveId = async (
     .get()
     .then((msRespond: { id: string }) => msRespond.id);
 };
+
+export const getSharedDocumentsId = async (
+  context: WebPartContext
+): Promise<string> => {
+  const client = await context.msGraphClientFactory.getClient();
+  return await client
+    .api("sites/root/lists")
+    .get()
+    .then(
+      (response: { value: { name: string; id: string }[] }) =>
+        response.value.filter((val) => val.name === "Shared Documents")[0].id
+    );
+};

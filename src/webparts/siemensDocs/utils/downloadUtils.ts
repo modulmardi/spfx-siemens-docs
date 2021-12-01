@@ -1,5 +1,5 @@
 import { WebPartContext } from "@microsoft/sp-webpart-base";
-import { getCurrentSiteRootDriveId } from "./getCurrentSiteRootDriveId";
+import { getCurrentSiteRootDriveId, getSharedDocumentsId } from "./idGetters";
 
 export const fetchDocxFiles = async (
   context: WebPartContext,
@@ -30,13 +30,7 @@ export const fetchDocxTagsWithMetas = async (
 ): Promise<{ eTag: string; tags: string }[]> => {
   //sites/root/lists/11e8aaae-84f6-4ffd-beab-1866d5c2874b/items?$expand=fields
   const client = await context.msGraphClientFactory.getClient();
-  const listId = await client
-    .api("sites/root/lists")
-    .get()
-    .then(
-      (response: { value: { name: string; id: string }[] }) =>
-        response.value.filter((val) => val.name === "Shared Documents")[0].id
-    );
+  const listId = await getSharedDocumentsId(context);
   return await client
     .api(`sites/root/lists/${listId}/items?$expand=fields`)
     .get()

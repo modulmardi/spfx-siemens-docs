@@ -1,4 +1,4 @@
-import { DefaultButton, Modal, PrimaryButton } from "@fluentui/react";
+import { DefaultButton, Modal, PrimaryButton, TextField } from '@fluentui/react';
 import { useBoolean } from "@fluentui/react-hooks";
 import React, { useContext, useEffect, useState } from "react";
 import * as strings from "SiemensDocsWebPartStrings";
@@ -19,8 +19,15 @@ const DocMaker = ({ }: DocMakerProps) => {
       blobToHtml(docFile, (html) => setDocHtml(html));
     } catch { }
   }, [docFile]);
+
+  const [tagsString, setTagsString] = useState("")
+
+  const handleTagsInputChange = (e, str: string) => {
+    setTagsString(str);
+  }
   return (
     <>
+      <TextField placeholder="Введите тэги: #spfx#тэг" onChange={handleTagsInputChange} />
       <input
         type="file"
         accept="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
@@ -33,7 +40,7 @@ const DocMaker = ({ }: DocMakerProps) => {
       />
       <PrimaryButton
         disabled={!docHtml?.value}
-        onClick={() => saveFileOnCurrentSite(spContext, path, docFile)}
+        onClick={() => saveFileOnCurrentSite(spContext, path, docFile, tagsString)}
         text={strings.SaveDocumentButtonLabel}
       />
       <Modal isOpen={isModalOpen} onDismiss={hideModal} isBlocking={false}>
