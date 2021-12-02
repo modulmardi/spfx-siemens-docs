@@ -1,5 +1,6 @@
 import { DefaultButton, Depths, Modal, Stack, StackItem, TextField } from "@fluentui/react";
 import { useBoolean } from '@fluentui/react-hooks';
+import { escapeRegExp } from "lodash";
 import React, { useContext, useEffect, useState } from "react";
 import strings from "SiemensDocsWebPartStrings";
 import { fetchDocxDownloadLinks, fetchDocxTagsWithMetas } from "../utils/downloadUtils";
@@ -18,6 +19,16 @@ const DocFinder = (props: Props) => {
   const [isModalOpen, { setTrue: showModal, setFalse: hideModal }] =
     useBoolean(false);
 
+  const [searchString, setSearchString] = useState("")
+  const [escapedTokenizedSearchString, setEscapedTokenizedSearchString] = useState<string[]>()
+
+  const handleSearchStringInputChange = (e, str: string) => {
+    setSearchString(str);
+  }
+
+  useEffect(() => {
+    setEscapedTokenizedSearchString(escapeRegExp(searchString).split(" "));
+  }, [searchString])
 
   useEffect(() => {
     fetchDocxDownloadLinks(spContext, path)
@@ -34,7 +45,7 @@ const DocFinder = (props: Props) => {
     if (fetchedDocumentsMetas && fetchedTagsWithMetas) {
 
       const tagsWithMetas = fetchedTagsWithMetas?.map((tagsWithMeta) => ({
-        eTag: tagsWithMeta.eTag, tags: tagsWithMeta.tags.split("#")
+        eTag: tagsWithMeta.eTag, tags: tagsWithMeta.tags?.split("#")
           .map(tagToken => tagToken.trim())
           .filter(tagToken => tagToken)
       }))
@@ -45,7 +56,7 @@ const DocFinder = (props: Props) => {
 
       const lol = fetchedDocumentsMetas.map((documentMeta) => {
         return ({
-          ...documentMeta, tags: tagsWithMetas.filter((tagsWithMeta) => {
+          ...documentMeta, tags: tagsWithMetas?.filter((tagsWithMeta) => {
             return tagsWithMeta.eTag === documentMeta.eTag
           })[0]?.tags
         })
@@ -56,9 +67,32 @@ const DocFinder = (props: Props) => {
     }
   }, [fetchedTagsWithMetas])
   return <div>
-    <TextField placeholder="Введите поисковой запрос" />
+    <TextField placeholder="Введите поисковой запрос" onChange={handleSearchStringInputChange} />
     <Stack style={{ width: '100%' }}>
-      {fetchedDocumentsMetas?.map((document, documentId) =>
+      {fetchedDocumentsMetas?.filter((item) => {
+        let searcher;
+        try {
+          const regexes = escapedTokenizedSearchString.filter((str) => str).map((str) => new RegExp(str, 'gi'));
+          console.error('regexes', regexes);
+
+          const searchName = regexes.every((regex) => item.name.match(regex));
+
+          const searchTags = item.tags?.filter((tag) => regexes.some((regex) => {
+            console.log(tag, regex, tag.match(regex), !!tag.match(regex), tag.match(regex)?.length !== 0);
+
+            return !!tag.match(regex)
+          })).length >= regexes.length;
+          searcher = searchName || searchTags;
+          console.log(!!searcher);
+          console.log(searcher);
+          console.log('name', !!searchName, searchName);
+          console.log('tags', !!searchTags, searchTags);
+        }
+        catch (error) {
+          console.error(error);
+        }
+        return !searchString || searcher;
+      }).map((document, documentId) =>
         <Stack onClick={async () => {
           try {
             const file = await (await fetch(`${document.downloadLink}`)).blob();
